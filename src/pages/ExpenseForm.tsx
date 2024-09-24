@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import expense from '../api/expense';
 
 const base = axios.create({
     baseURL: 'http://localhost:3000',
@@ -14,6 +15,7 @@ const ExpenseForm = () => {
     const [category, setCategory] = useState('');
     const [comment, setComment] = useState('');
 
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const transaction = {
@@ -23,12 +25,7 @@ const ExpenseForm = () => {
             comment,
         };
 
-        try {
-            await base.post('/transactions', transaction);
-            alert('Transaction added successfully');
-        } catch (error) {
-            console.error('Error adding transaction', error);
-        }
+        await expense.create(transaction)
     };
 
     return (
